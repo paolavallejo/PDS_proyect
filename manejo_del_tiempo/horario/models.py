@@ -25,11 +25,11 @@ DIA_CHOICES = [
 
 class Horario_sueno(models.Model):
     usuario_id = models.ForeignKey(User,on_delete=models.CASCADE)
-    horas_semanales = models.TimeField(formats=['%H:%M'])
-    hora_maxima_levantar = models.TimeField(formats=['%H:%M'])
-    hora_minima_acostar = models.TimeField(formats=['%H:%M'])
-    longitud_maxima_sueno = models.TimeField(formats=['%H:%M'])
-    longitud_minima_sueno = models.TimeField(formats=['%H:%M'])
+    horas_semanales = models.TimeField()
+    hora_maxima_levantar = models.TimeField()
+    hora_minima_acostar = models.TimeField()
+    longitud_maxima_sueno = models.TimeField()
+    longitud_minima_sueno = models.TimeField()
 
 
 
@@ -48,9 +48,9 @@ class Actividad_fija(models.Model):
     nombre_actividad = models.CharField(max_length=60)
     descripcion_actividad = models.CharField(max_length=400)
     dia_realizacion = models.CharField(max_length=10,choices=DIA_CHOICES)
-    hora_realizacion = models.TimeField(formats=['%H:%M'])
-    demora_actividad = models.TimeField(formats=['%H:%M'])
-    tiempo_transporte = models.TimeField(formats=['%H:%M'])
+    hora_realizacion = models.TimeField()
+    demora_actividad = models.TimeField()
+    tiempo_transporte = models.TimeField()
     tipo_actividad = models.CharField(max_length=40,choices=[('no_fija','no_fija'),('fija','fija'),('sueno','sueno')])
 
 
