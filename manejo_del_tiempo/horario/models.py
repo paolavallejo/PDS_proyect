@@ -38,7 +38,8 @@ class Actividad_no_fija(models.Model):
     usuario_id = models.ForeignKey(User,on_delete=models.CASCADE)
     nombre_actividad = models.CharField(max_length=60)
     descripcion_actividad = models.CharField(max_length=400)
-
+    demora_actividad = models.TimeField()
+    prioridad = models.IntegerField()
 
 
 
