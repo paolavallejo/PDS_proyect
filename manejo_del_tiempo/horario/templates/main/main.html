@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}{% endblock title %}
+    {% block link %}{% endblock link %}
+</head>
+
+
+<body>
+    <nav class = "navbar">
+
+        <ul>
+            <li><a href="{% url 'horario' %}">Home</a></li>
+            <li><a href="{% url 'suenio' %}">Horario</a></li>
+            <li><a href="">{{request.user.username}}</a></li>
+
+            {% if request.user.is_authenticated %}
+            <div class="dropdown">
+                <button class="contenedor_user_image"><img class="user_image" src="{% static 'user_image.png' %}" alt="user_image"></button>
+                <div class="dropdown-content">
+                <a href="{% url 'user_logout' %}">Logout</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="dropdown">
+                <button><img class="user_image"src="{% static 'user_image.png' %}" alt="user_image"></button>
+                <div class="dropdown-content">
+                <a href="{% url 'user_login' %}">Login</a>
+                <a href="{% url 'user_register' %}">Register</a>
+                </div>
+            </div>
+            {% endif %}
+        </ul>
+
+    </nav>
+
+    <nav class="image_nav_bar">
+        <img src="{% static 'imagenes/Timemaster.png' %}" alt="logo_time_master">
+    </nav>
+
+    {% block content %}
+    
+    {% endblock content %}
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>register</title>
+</head>
+<body>
+    {% if request.user.is_authenticated == False %}
+    <div class="contenido" id="formulario_crear_ahorro">
+        <h1 id="titulo_crear_ahorro">Crea tu usuario</h1>
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{UserCreationForm}}
+            <input type="submit" value="Register">
+        </form>
+    </div>
+    <a href="{% url 'user_login' %}">¿Ya tienes una cuenta?</a>
+    {% else %}
+    <p>Ya tienes un inicio de sesión</p>
+    {% endif %}
+</body>
+</html>
