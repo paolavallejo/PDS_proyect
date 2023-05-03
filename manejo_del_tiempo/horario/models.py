@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator
 from django.contrib.auth.models import User
 
 
@@ -9,13 +10,15 @@ class Event(models.Model):
     description = models.CharField(max_length = 80)
     fixed = models.BooleanField()
     constraints = models.JSONField(default = dict)
+    array_position1 = models.IntegerField(MaxValueValidator(7))
+    array_position2 = models.IntegerField(MaxValueValidator(24))
 
 
 
 
 class Schedule(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.CASCADE)
-    #ordered_schedule = [[]] Averiguar como almacenar este tipo de dato en sqlite
+    name = models.CharField(max_length=60)
 
 
 
