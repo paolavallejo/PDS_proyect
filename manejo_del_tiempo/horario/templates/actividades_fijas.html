@@ -1,0 +1,44 @@
+{% extends 'main/main.html' %}
+{% load static %}
+
+{% block content %}
+<h1>Actividades fijas</h1>
+<form action="" method="POST">
+    {% csrf_token %}
+    <label for="name">Nombre</label>
+    <input type="text" name="name" id="name" required>
+
+    <label for="dia_inicio">Día inicio actividad</label>
+    <select name="dia_inicio" id="dia_inicio" required>
+        <option value="0">lunes</option>
+        <option value="1">martes</option>
+        <option value="2">miércoles</option>
+        <option value="3">jueves</option>
+        <option value="4">viernes</option>
+        <option value="5">sábado</option>
+        <option value="6">domingo</option>
+    </select>
+
+    <label for="dia_fin">Día fin actividad</label>
+    <select name="dia_fin" id="dia_fin" required>
+        <option value="0">lunes</option>
+        <option value="1">martes</option>
+        <option value="2">miércoles</option>
+        <option value="3">jueves</option>
+        <option value="4">viernes</option>
+        <option value="5">sábado</option>
+        <option value="6">domingo</option>
+    </select>
+
+    <label for="hora_inicio">Hora inicio (entre 1,24)</label>
+    <input type="number" name="hora_inicio" id="hora_inicio" min="1" max="24" step="1" required>
+
+    <label for="hora_fin">Hora fin (entre 1,24)</label>
+    <input type="number" name="hora_fin" id="hora_fin" min="1" max="24" step="1" required>
+
+    <input type="submit" value="Crear">
+
+
+</form>
+
+{% endblock  %}

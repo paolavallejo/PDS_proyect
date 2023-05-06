@@ -9,7 +9,6 @@ from django.http import HttpResponse
 
 
 #Ruta principal:
-#@login_required(login_url = reverse('horario:user_login'))
 def horario(request):
     return render(request,"horario.html")
 
@@ -64,18 +63,19 @@ def user_register(request):
 
 #Adquirir datos de sueño:
 def suenio(request):
-    return HttpResponse("Estás en la pagina de sueño")
+    if request.method == "POST":
+        pass
+
+
+    elif request.method == "GET":
+        return render(request,"suenio.html")
+    
 
 
 
 #Adquirir y mostrar actividades fijas:
 def actividades_fijas(request):
-    return HttpResponse("Estás en la pagina de actividades fijas")
-
-
-
-def crear_actividades_fijas(request):
-    return HttpResponse("Estás en la pagina de crear actividades fijas")
+    return render(request,"actividades_fijas.html")
 
 
 
@@ -90,15 +90,8 @@ def actividades_no_fijas(request):
 
 
 
-
-def crear_actividades_no_fijas(request):
-    return HttpResponse("Estás en la pagina de crear actividades no fijas")
-
-
-
 def eliminar_actividades_no_fijas(request):
     return HttpResponse("Estás en la pagina de eliminar actividades no fijas")
-
 
 
 

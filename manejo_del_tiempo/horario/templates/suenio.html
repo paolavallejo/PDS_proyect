@@ -1,0 +1,17 @@
+{% extends 'main/main.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <label for="priority">Prioridad</label>
+    <select name="priority" id="priority">
+        <option value="1"></option>
+        <option value="2"></option>
+    </select>
+
+</form>
+
+{% endblock %}

@@ -6,19 +6,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/user_register.css' %}">
     <title>register</title>
 </head>
-<body>
+<body id="register_body">
     {% if request.user.is_authenticated == False %}
-    <div class="contenido" id="formulario_crear_ahorro">
-        <h1 id="titulo_crear_ahorro">Crea tu usuario</h1>
-        <form method="POST" action="">
+    
+        
+        <form id="formulario_register" method="POST" action="">
+            <div id="contenedor_titulo_app">
+                <h1 id="titulo_app">TIMEMASTER</h1>
+            </div>
             {% csrf_token %}
             {{UserCreationForm}}
-            <input type="submit" value="Register">
+            <input id="register_input_submit" type="submit" value="Register">
+            <a href="{% url 'user_login' %}">¿Ya tienes una cuenta?</a>
         </form>
-    </div>
-    <a href="{% url 'user_login' %}">¿Ya tienes una cuenta?</a>
+    
+    
     {% else %}
     <p>Ya tienes un inicio de sesión</p>
     {% endif %}
