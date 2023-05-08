@@ -12,4 +12,6 @@ urlpatterns = [
         path('actividades_fijas/eliminar_actividades_fijas',views.eliminar_actividades_fijas, name = 'eliminar_actividades_fijas'),
         path('actividades_no_fijas',views.actividades_no_fijas, name = 'actividades_no_fijas'),
         path('actividades_no_fijas/eliminar_actividades_no_fijas',views.eliminar_actividades_no_fijas, name = 'eliminar_actividades_no_fijas'),
+        path('horario_final',views.horario_final, name = 'horario_final'),
+
 ]

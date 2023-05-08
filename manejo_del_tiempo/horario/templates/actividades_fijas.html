@@ -3,7 +3,26 @@
 
 {% block content %}
 <h1>Actividades fijas</h1>
+{% comment %} links petición horarios  {% endcomment %}
+<div class="contenedor_links_horario">
+    
+    <div class="contenedor_link_suenio">
+        <a href="{% url 'suenio' %}">1</a>
+    </div>
+
+    <div class="contenedor_link_actividades_fijas">
+        <a href="{% url 'actividades_fijas' %}">2</a>
+    </div>
+    
+    <div class="contenedor_link_actividades_no_fijas">
+        <a href="{% url 'actividades_no_fijas' %}">3</a>
+    </div>
+
+</div>
+
+{% comment %} Formulario actividades fijas  {% endcomment %}
 <form action="" method="POST">
+
     {% csrf_token %}
     <label for="name">Nombre</label>
     <input type="text" name="name" id="name" required>
@@ -36,7 +55,7 @@
     <label for="hora_fin">Hora fin (entre 1,24)</label>
     <input type="number" name="hora_fin" id="hora_fin" min="1" max="24" step="1" required>
 
-    <input type="submit" value="Crear">
+    <input type="submit" value="Enviar">
 
 
 </form>

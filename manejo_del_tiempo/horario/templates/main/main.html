@@ -18,7 +18,7 @@
             <li class="username"><a href="">{{request.user.username}}</a></li>
             {% if request.user.is_authenticated %}
             <div class="dropdown">
-                <button class="contenedor_user_image"><img class="imagenes/user_image" src="{% static 'user_image.png' %}" alt="user_image"></button>
+                <button class="contenedor_user_image"><img class="user_image" src="{% static 'imagenes/user_image.png' %}" alt="user_image"></button>
                 <div class="dropdown-content">
                 <a href="{% url 'user_logout' %}">Logout</a>
                 </div>

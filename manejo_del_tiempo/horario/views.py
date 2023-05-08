@@ -36,7 +36,7 @@ def user_login(request):
     return render(request,"user_login.html")
 
 
-#@login_required(login_url = reverse('horario:user_login'))
+@login_required(login_url = "user_login")
 def user_logout(request):
     logout(request)
     return redirect(reverse('user_login'))
@@ -62,6 +62,7 @@ def user_register(request):
 
 
 #Adquirir datos de sueño:
+@login_required(login_url = "user_login")
 def suenio(request):
     if request.method == "POST":
         pass
@@ -74,28 +75,33 @@ def suenio(request):
 
 
 #Adquirir y mostrar actividades fijas:
+@login_required(login_url = "user_login")
 def actividades_fijas(request):
     return render(request,"actividades_fijas.html")
 
 
 
+@login_required(login_url = "user_login")
 def eliminar_actividades_fijas(request):
     return HttpResponse("Estás en la pagina de eliminar actividades fijas")
 
 
 
 #Adquirir y mostrar actividades no fijas
+@login_required(login_url = "user_login")
 def actividades_no_fijas(request):
-    return HttpResponse("Estás en la pagina de actividades no fijas")
+    return render(request,"actividades_no_fijas.html")
 
 
 
+@login_required(login_url = "user_login")
 def eliminar_actividades_no_fijas(request):
     return HttpResponse("Estás en la pagina de eliminar actividades no fijas")
 
 
 
 #Vista que crea el horario final y lo muestra en pantalla:
+@login_required(login_url = "user_login")
 def horario_final(request):
-    return HttpResponse("Estás en la pagina que despliega el horario final")
+    return render(request,"horario_final.html")
 
