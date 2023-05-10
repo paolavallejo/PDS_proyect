@@ -63,27 +63,45 @@ def user_register(request):
 
 
 #Adquirir datos de sueño:
+'''
+Atributos:
+User_id 
+priority = 10
+name = horario_suenio
+Event_type = Actividad_no_fija
+        
+
+Constraints:
+time_goal: horas semanales sueño
+time_goal_counter: horas semanales sueño
+max_levantarse: hora máxima levantar
+max_acostarse: hora máxima acostar 
+max_time: máximo tiempo de dormir seguido
+'''
 @login_required(login_url = "user_login")
 def suenio(request):
+    user = User.objects.get(pk = request.user.pk)
     if request.method == "POST":
-        #Atributos:
-        #
-        #
-        #
-
-        #constraints: 
-        # time_goal: horas semanales sueño
-        # time_goal_counter: horas semanales sueño
-        # max_levantarse: hora máxima levantar
-        # max_acostarse: hora máxima acostar 
-        # max_time: máximo tiempo de dormir seguido
         
+        priority = 10
         name = "horario_suenio"
-        pass
+        event_type = "suenio"
+        time_goal = request.POST["horas_suenio"]
+        time_goal_counter = time_goal
+        max_levantarse = request.POST["hora_maxima_levantar"]
+        max_acostarse = request.POST["hora_maxima_acostar"]
+        max_time = request.POST["longitud_maxima_suenio"]
+        constraints = {'time_goal':time_goal,'time_goal_counter':time_goal_counter,'max_levantarse':max_levantarse,'max_acostarse':max_acostarse,'max_time':max_time}
+
+        nuevo_horario_suenio = Event(user_id=user,priority=priority,name=name,event_type=event_type,constraints=constraints)
+        nuevo_horario_suenio.save()
+        return redirect(reverse("actividades_fijas"))
         
 
     elif request.method == "GET":
-        return render(request,"suenio.html")
+        horario_suenio = Event.objects.filter(user_id = user.pk)
+        horario_suenio = horario_suenio.filter(event_type="suenio")
+        return render(request,"suenio.html",{"horario_suenio":horario_suenio})
     
 
 @login_required(login_url = "user_login")
@@ -94,20 +112,23 @@ def eliminar_suenio(request,ruta_suenio):
 
 
 #Adquirir y mostrar actividades fijas:
-'''Atributos:
-        User_id 
-        priority = 10
-        name
-        Event_type = Actividad_no_fija
+'''
+Atributos:
+User_id 
+priority = 10
+name
+Event_type = Actividad_no_fija
         
 
-    Constraints:
-        No maneja constraints'''
+Constraints:
+No maneja constraints
+'''
 @login_required(login_url = "user_login")
 def actividades_fijas(request):
     usuario = User.objects.get(pk=request.user.pk)
     if request.method == "POST":
-
+        
+        #Instanciar Event:
         nombre = request.POST['name']
         prioridad = 10
         tipo_evento = "actividad_fija"
@@ -116,7 +137,6 @@ def actividades_fijas(request):
         nueva_actividad_fija.save()
 
         #Crear registro de Position para cada posicion que ocupa el evento:
-
         dia_actividad = int(request.POST['dia_actividad'])
         hora_actividad = int(request.POST["hora_actividad"])-1
         duracion_actividad = int(request.POST["duracion_actividad"])
