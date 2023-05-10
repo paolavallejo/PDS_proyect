@@ -108,7 +108,9 @@ def suenio(request):
 
 @login_required(login_url = "user_login")
 def eliminar_suenio(request,ruta_suenio):
-    return HttpResponse("Estás en la pagina de eliminar horario de sueño")
+    suenio = Event.objects.get(pk = ruta_suenio)
+    suenio.delete()
+    return redirect(reverse("suenio"))
 
 
 
@@ -159,7 +161,9 @@ def actividades_fijas(request):
 
 @login_required(login_url = "user_login")
 def eliminar_actividades_fijas(request,ruta_actividad_fija):
-    return HttpResponse("Estás en la pagina de eliminar actividades fijas")
+    actividad_fija = Event.objects.get(pk = ruta_actividad_fija)
+    actividad_fija.delete()
+    return redirect(reverse("actividades_fijas"))
 
 
 """
@@ -209,7 +213,9 @@ def actividades_no_fijas(request):
 
 @login_required(login_url = "user_login")
 def eliminar_actividades_no_fijas(request,ruta_actividad_no_fija):
-    return HttpResponse("Estás en la pagina de eliminar actividades no fijas")
+    actividad_no_fija = Event.objects.get(pk = ruta_actividad_no_fija)
+    actividad_no_fija.delete()
+    return redirect(reverse("actividades_no_fijas"))
 
 
 
@@ -217,5 +223,6 @@ def eliminar_actividades_no_fijas(request,ruta_actividad_no_fija):
 #Vista que crea el horario final y lo muestra en pantalla:
 @login_required(login_url = "user_login")
 def horario_final(request):
+    
     return render(request,"horario_final.html")
 
