@@ -59,6 +59,7 @@
             <div class="caja_actividad">
                 <p>{{actividad.name}}</p>
                 <p>id: {{actividad.pk}}</p>
+                <a href="{% url 'eliminar_actividades_fijas' ruta_actividad_fija=actividad.pk %}">❌</a>
             </div>
         {% endfor %}
     {% endif %}

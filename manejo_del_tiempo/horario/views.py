@@ -65,24 +65,25 @@ def user_register(request):
 #Adquirir datos de sueño:
 '''
 Atributos:
-User_id 
-priority = 10
-name = horario_suenio
-Event_type = Actividad_no_fija
+#User_id 
+#priority = 10
+#name = horario_suenio
+#Event_type = Actividad_no_fija
         
 
 Constraints:
-time_goal: horas semanales sueño
-time_goal_counter: horas semanales sueño
-max_levantarse: hora máxima levantar
-max_acostarse: hora máxima acostar 
-max_time: máximo tiempo de dormir seguido
+#time_goal: horas semanales sueño
+#time_goal_counter: horas semanales sueño
+#max_levantarse: hora máxima levantar
+#max_acostarse: hora máxima acostar 
+#max_time: máximo tiempo de dormir seguido
 '''
 @login_required(login_url = "user_login")
 def suenio(request):
     user = User.objects.get(pk = request.user.pk)
     if request.method == "POST":
         
+        #Adquirir atributos y constraints:
         priority = 10
         name = "horario_suenio"
         event_type = "suenio"
@@ -93,6 +94,7 @@ def suenio(request):
         max_time = request.POST["longitud_maxima_suenio"]
         constraints = {'time_goal':time_goal,'time_goal_counter':time_goal_counter,'max_levantarse':max_levantarse,'max_acostarse':max_acostarse,'max_time':max_time}
 
+        #Instanciar y guardar Event:
         nuevo_horario_suenio = Event(user_id=user,priority=priority,name=name,event_type=event_type,constraints=constraints)
         nuevo_horario_suenio.save()
         return redirect(reverse("actividades_fijas"))
@@ -114,14 +116,14 @@ def eliminar_suenio(request,ruta_suenio):
 #Adquirir y mostrar actividades fijas:
 '''
 Atributos:
-User_id 
-priority = 10
-name
-Event_type = Actividad_no_fija
+#User_id 
+#priority = 10
+#name
+#Event_type = Actividad_no_fija
         
 
 Constraints:
-No maneja constraints
+#No maneja constraints
 '''
 @login_required(login_url = "user_login")
 def actividades_fijas(request):
@@ -160,29 +162,48 @@ def eliminar_actividades_fijas(request,ruta_actividad_fija):
     return HttpResponse("Estás en la pagina de eliminar actividades fijas")
 
 
+"""
+Atributos:
+# User_id -
+# priority -
+# Name -
+# Event_type = actividad_no_fija -
 
+Constraints:
+# time_goal: horas semanales actividad 
+# time_goal_counter: horas semanales actividad 2
+# earliest_hour: hora más temprana
+# latest_hour: hora máxima realizar actividad  
+# max_time: máximo tiempo para realizar actividad
+"""
 
 #Adquirir y mostrar actividades no fijas
 @login_required(login_url = "user_login")
 def actividades_no_fijas(request):
+    user = User.objects.get(pk = request.user.pk)
     if request.method == "POST":
-        #Atributos:
-        #User_id -
-        #priority -
-        #Name -
-        #Event_type = actividad_no_fija -
+         
+        #Adquirir atributos y constraints: 
+        priority = request.POST["priority"]
+        name = request.POST["name"]
+        event_type = "actividad_no_fija"
+        time_goal = request.POST["horas_semanales"]
+        time_goal_counter = time_goal
+        earliest_hour = request.POST["hora_mas_temprana"]
+        latest_hour = request.POST["hora_mas_tarde"]
+        max_time = request.POST["tiempo_maximo"]
+        constraints = {'time_goal':time_goal,'time_goal_counter':time_goal_counter,'earliest_hour':earliest_hour,'latest_hour':latest_hour,'max_time':max_time}
 
-        #Constraints:
-        # time_goal: horas semanales actividad 
-        # time_goal_counter: horas semanales actividad 2
-        # earliest_hour: hora más temprana
-        # latest_hour: hora máxima realizar actividad  
-        # max_time: máximo tiempo para realizar actividad 
-        pass
+        #Instanciar y guardar Evento no fijo:
+        nuevo_evento_no_fijo = Event(user_id=user,priority=priority,name=name,event_type=event_type,constraints=constraints)
+        nuevo_evento_no_fijo.save()
+        return redirect(reverse("actividades_no_fijas"))
 
 
     elif request.method == "GET":
-        return render(request,"actividades_no_fijas.html")
+        actividades_no_fijas = Event.objects.filter(user_id = user.pk)
+        actividades_no_fijas = actividades_no_fijas.filter(event_type = "actividad_no_fija")
+        return render(request,"actividades_no_fijas.html",{'actividades_no_fijas':actividades_no_fijas})
 
 
 

@@ -51,6 +51,7 @@
             <div class="caja_actividad">
                 <p>{{horario.name}}</p>
                 <p>id: {{horario.pk}}</p>
+                <a href="{% url 'eliminar_suenio' ruta_suenio=horario.pk %}">❌</a>
             </div>
         {% endfor %}
     {% endif %}

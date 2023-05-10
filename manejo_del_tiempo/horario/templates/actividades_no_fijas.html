@@ -41,8 +41,17 @@
         <option value="10">10</option>
     </select>
 
-    <label for="demora_actividad">¿Cuánto se demora la actividad?</label>
-    <input type="number" name="demora_actividad" id="demora_actividad" min="1" max="24" step="1" required>
+    <label for="horas_semanales">Horas semanales para realizar actividad</label>
+    <input type="number" name="horas_semanales" id="horas_semanales" min="1" max="24" step="1" required>
+
+    <label for="hora_mas_temprana">Hora más temprana para realizar actividad</label>
+    <input type="number" name="hora_mas_temprana" id="hora_mas_temprana" min="1" max="24" step="1" required>
+
+    <label for="hora_mas_tarde">Hora más tarde para realizar actividad</label>
+    <input type="number" name="hora_mas_tarde" id="hora_mas_tarde" min="1" max="24" step="1" required>
+
+    <label for="tiempo_maximo">Tiempo máximo en el que realizarías la actividad</label>
+    <input type="number" name="tiempo_maximo" id="tiempo_maximo" min="1" max="24" step="1" required>
 
 
     <input type="submit" value="Enviar">
@@ -50,4 +59,20 @@
 
 </form>
 
+
+
+{% comment %} Se despliegan actividades creadas  {% endcomment %}
+
+<div class="contenedor_actividades">
+    {% if actividades_no_fijas %}
+        <h1 class="titulo_tus_actividades">Tus actividades no fijas:</h1>
+        {% for actividad in actividades_no_fijas %}
+            <div class="caja_actividad">
+                <p>{{actividad.name}}</p>
+                <p>id: {{actividad.pk}}</p>
+                <a href="{% url 'eliminar_actividades_no_fijas' ruta_actividad_no_fija=actividad.pk %}">❌</a>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
 {% endblock  %}
