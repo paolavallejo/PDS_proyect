@@ -7,10 +7,9 @@ class Event(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     priority = models.IntegerField(choices = [(i,i) for i in range(1,11)])
     name = models.CharField(max_length=30)
-    fixed = models.BooleanField()
+    event_type = models.CharField(max_length=50,default="actividad_fija") #Choices: actividad_fija, no fija y horario suenio.
     constraints = models.JSONField(default = dict)
 
-    #constraints: (time_goal_counter),horas_por_semana(time_goal), más temprano para hacer la actividad(earliest_hour),(latest_hour),max_time  
 
 
 
