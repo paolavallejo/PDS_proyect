@@ -2,8 +2,15 @@
 {% load static %}
 
 {% block content %}
-
-    <h1>Aquí debe aparecer el horario final</h1>
+    <table>
+    {% for day in horario%} 
+        <tr>
+        {% for hour in day %}
+            <td> {{ hour }}</td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
 
 {% endblock content %}
 

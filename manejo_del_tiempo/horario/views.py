@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from .models import Event, Position
 
+from .crear_matriz_horario import  crear_matriz_horario
+
 
 #Ruta principal:
 def horario(request):
@@ -223,6 +225,19 @@ def eliminar_actividades_no_fijas(request,ruta_actividad_no_fija):
 #Vista que crea el horario final y lo muestra en pantalla:
 @login_required(login_url = "user_login")
 def horario_final(request):
-    
-    return render(request,"horario_final.html")
+    actividades_fijas = Event.objects.filter(user_id = request.user.pk)
+    actividades_fijas = actividades_fijas.filter(event_type = "actividad_fija")
+
+    # Sacar posiciones de eventos de base de datos
+    schedule = [[ None for period in range(24)] for day in range(7)]
+
+    for actividad_fija in actividades_fijas:
+        posiciones = Position.objects.filter(event_id = actividad_fija.pk)
+        for pos in posiciones:
+            dia = pos.day
+            hora = pos.hour
+
+            schedule[dia][hora] = actividad_fija
+
+    return render(request,"horario_final.html", {"horario":schedule})
 
