@@ -15,9 +15,10 @@
         </tr>
 
         
-    {% for day in horario%} 
+    {% for hour in horario%} 
         <tr>
-        {% for event in day %}
+            <td> {{ horario.index(hour) }}:00 </td>
+        {% for event in hour %}
             {% if event.name == None %}
                 <td>" "</td>
             {% else %}
