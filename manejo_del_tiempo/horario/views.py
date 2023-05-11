@@ -233,7 +233,7 @@ def horario_final(request):
     #Organizar arreglo final(incluye horario sueño y actividades no fijas):
     
     
-    fixed_schedule = list(zip(*schedule))
+    fixed_schedule = list(zip(*fixed_schedule))
 
     return render(request,"horario_final.html", {"horario":fixed_schedule})
 
