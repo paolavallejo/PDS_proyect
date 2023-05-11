@@ -231,11 +231,9 @@ def horario_final(request):
     #Ingresar actividades fijas en arreglo y almacenarlo en la variable schedule:
     fixed_schedule = registrar_posiciones(actividades_fijas = actividades_fijas)
     #Organizar arreglo final(incluye horario sueño y actividades no fijas):
-
-
-
-
-
+    
+    
+    fixed_schedule = list(zip(*schedule))
 
     return render(request,"horario_final.html", {"horario":fixed_schedule})
 
