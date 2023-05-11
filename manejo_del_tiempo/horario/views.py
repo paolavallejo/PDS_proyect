@@ -7,8 +7,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from .models import Event, Position
-
 from .crear_matriz_horario import  crear_matriz_horario
+from .helpers import registrar_posiciones 
 
 
 #Ruta principal:
@@ -228,16 +228,14 @@ def horario_final(request):
     actividades_fijas = Event.objects.filter(user_id = request.user.pk)
     actividades_fijas = actividades_fijas.filter(event_type = "actividad_fija")
 
-    # Sacar posiciones de eventos de base de datos
-    schedule = [[ None for period in range(24)] for day in range(7)]
+    #Ingresar actividades fijas en arreglo y almacenarlo en la variable schedule:
+    fixed_schedule = registrar_posiciones(actividades_fijas = actividades_fijas)
+    #Organizar arreglo final(incluye horario sueño y actividades no fijas):
 
-    for actividad_fija in actividades_fijas:
-        posiciones = Position.objects.filter(event_id = actividad_fija.pk)
-        for pos in posiciones:
-            dia = pos.day
-            hora = pos.hour
 
-            schedule[dia][hora] = actividad_fija
 
-    return render(request,"horario_final.html", {"horario":schedule})
+
+
+
+    return render(request,"horario_final.html", {"horario":fixed_schedule})
 

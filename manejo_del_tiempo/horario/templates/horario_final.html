@@ -3,10 +3,22 @@
 
 {% block content %}
     <table>
+        <tr>
+        
+            <td>Lunes</td>
+            <td>Martes</td>
+            <td>Miércoles</td>
+            <td>Jueves</td>
+            <td>Viernes</td>
+            <td>Sabado</td>
+            <td>Domingo</td>
+        </tr>
+
+        
     {% for day in horario%} 
         <tr>
         {% for hour in day %}
-            <td> {{ hour }}</td>
+            <th> {{ hour }}</th>
         {% endfor %}
         </tr>
     {% endfor %}
