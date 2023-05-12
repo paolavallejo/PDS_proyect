@@ -4,7 +4,7 @@
 {% block content %}
     <table>
         <tr>
-        
+            <td>Hora</td>
             <td>Lunes</td>
             <td>Martes</td>
             <td>Miércoles</td>
@@ -14,19 +14,23 @@
             <td>Domingo</td>
         </tr>
 
-        
-    {% for hour in horario%} 
-        <tr>
-            <td> {{ horario.index(hour) }}:00 </td>
-        {% for event in hour %}
-            {% if event.name == None %}
-                <td>" "</td>
-            {% else %}
-                <td> {{ event.name }} </td>
-            {% endif %}
+       
+        {% for hour in horario %} 
+            <tr>
+                {% with hour_counter=forloop.counter0 %}
+                    <td>{{ hour_counter }}:00</td>
+                {% endwith %}
+            {% for event in hour %}
+                {% if event.name is null %}
+                    <td>" "</td>
+                {% else %}
+                    <td> {{ event.name }} </td>
+                {% endif %}
+            {% endfor %}
+            </tr>
+            
         {% endfor %}
-        </tr>
-    {% endfor %}
+    
 </table>
 
 {% endblock content %}

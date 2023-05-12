@@ -144,12 +144,12 @@ def actividades_fijas(request):
 
         #Crear registro de Position para cada posicion que ocupa el evento:
         dia_actividad = int(request.POST['dia_actividad'])
-        hora_actividad = int(request.POST["hora_actividad"])-1
+        hora_actividad = int(request.POST["hora_actividad"])
         duracion_actividad = int(request.POST["duracion_actividad"])
         hora_final = hora_actividad + duracion_actividad
 
         for hora in range(hora_actividad,hora_final,1):
-            posicion_actividad_fija = Position(event_id = nueva_actividad_fija,user_id = usuario,day=dia_actividad,hour = hora)
+            posicion_actividad_fija = Position(event_id = nueva_actividad_fija,user_id = usuario,day=dia_actividad,hour = hora,activity_name=nombre)
             posicion_actividad_fija.save()
         return redirect(reverse("actividades_fijas"))
 
@@ -234,6 +234,4 @@ def horario_final(request):
     
     
     fixed_schedule = list(zip(*fixed_schedule))
-
     return render(request,"horario_final.html", {"horario":fixed_schedule})
-

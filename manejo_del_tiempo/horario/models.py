@@ -18,6 +18,7 @@ class Position(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.CASCADE)
     day = models.IntegerField(MaxValueValidator(7))
     hour = models.IntegerField(MaxValueValidator(24))
+    activity_name = models.CharField(max_length=30, default="null")
 
 
 
