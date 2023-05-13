@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from .models import Event, Position
 from .crear_matriz_horario import  crear_matriz_horario
-from .helpers import registrar_posiciones 
+from .helpers import registrar_posiciones, generate_schedule
 
 
 #Ruta principal:
@@ -193,11 +193,11 @@ def actividades_no_fijas(request):
         priority = request.POST["priority"]
         name = request.POST["name"]
         event_type = "actividad_no_fija"
-        time_goal = request.POST["horas_semanales"]
+        time_goal = int(request.POST["horas_semanales"])
         time_goal_counter = time_goal
-        earliest_hour = request.POST["hora_mas_temprana"]
-        latest_hour = request.POST["hora_mas_tarde"]
-        max_time = request.POST["tiempo_maximo"]
+        earliest_hour = int(request.POST["hora_mas_temprana"])
+        latest_hour = int(request.POST["hora_mas_tarde"])
+        max_time = int(request.POST["tiempo_maximo"])
         constraints = {'time_goal':time_goal,'time_goal_counter':time_goal_counter,'earliest_hour':earliest_hour,'latest_hour':latest_hour,'max_time':max_time}
 
         #Instanciar y guardar Evento no fijo:
@@ -225,13 +225,34 @@ def eliminar_actividades_no_fijas(request,ruta_actividad_no_fija):
 #Vista que crea el horario final y lo muestra en pantalla:
 @login_required(login_url = "user_login")
 def horario_final(request):
+    usuario = User.objects.get(pk=request.user.pk)
+    
+    # Sacar actividades fijas
     actividades_fijas = Event.objects.filter(user_id = request.user.pk)
     actividades_fijas = actividades_fijas.filter(event_type = "actividad_fija")
 
     #Ingresar actividades fijas en arreglo y almacenarlo en la variable schedule:
-    fixed_schedule = registrar_posiciones(actividades_fijas = actividades_fijas)
-    #Organizar arreglo final(incluye horario sueño y actividades no fijas):
+    fixed_schedule = registrar_posiciones(actividades_fijas)
+
+    # Sacarse actividades no fijas del 
+    actividades_no_fijas = Event.objects.filter(user_id = request.user.pk)
+    actividades_no_fijas = actividades_no_fijas.filter(event_type = "actividad_no_fija")
+
+    # Organizar arreglo final(incluye horario sueño y actividades no fijas):
+    no_fijas_adapt = generate_schedule(fixed_schedule, actividades_no_fijas)
     
+    #Almacenar posiciones de cada evento
+    for par_evento_pos in no_fijas_adapt:
     
-    fixed_schedule = list(zip(*fixed_schedule))
-    return render(request,"horario_final.html", {"horario":fixed_schedule})
+        evento = par_evento_pos[0]
+        day = par_evento_pos[1][0]
+        hour = par_evento_pos[1][1]
+        
+        posicion_actividad_no_fija = Position(event_id = evento,user_id = usuario,day=day,hour = hour,activity_name=evento.name)
+        posicion_actividad_no_fija.save()
+    
+    actividades = Event.objects.filter(user_id = usuario)
+    horario_final = registrar_posiciones(actividades)
+    horario_final = list(zip(*horario_final))
+    
+    return render(request,"horario_final.html", {"horario":horario_final})
