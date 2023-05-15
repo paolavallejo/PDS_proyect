@@ -52,3 +52,12 @@ def generate_schedule(schedule, adaptable_events):
                 event_idx += 1
     return adaptable_events_locations
 
+
+
+
+def eliminar_posiciones_actividades(actividades):
+
+    for actividad in actividades:
+            posiciones = Position.objects.filter(event_id = actividad)
+            posiciones.delete()
+

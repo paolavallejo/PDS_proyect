@@ -6,9 +6,9 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from .models import Event, Position
+from .models import Event, Position,Schedule
 from .crear_matriz_horario import  crear_matriz_horario
-from .helpers import registrar_posiciones, generate_schedule
+from .helpers import registrar_posiciones, generate_schedule, eliminar_posiciones_actividades
 
 
 #Ruta principal:
@@ -226,33 +226,107 @@ def eliminar_actividades_no_fijas(request,ruta_actividad_no_fija):
 @login_required(login_url = "user_login")
 def horario_final(request):
     usuario = User.objects.get(pk=request.user.pk)
-    
-    # Sacar actividades fijas
-    actividades_fijas = Event.objects.filter(user_id = request.user.pk)
-    actividades_fijas = actividades_fijas.filter(event_type = "actividad_fija")
 
-    #Ingresar actividades fijas en arreglo y almacenarlo en la variable schedule:
-    fixed_schedule = registrar_posiciones(actividades_fijas)
+    "Si el horario existe:"
+    try:
+        horario_creado = Schedule.objects.get(user_id = usuario)
 
-    # Sacarse actividades no fijas del 
-    actividades_no_fijas = Event.objects.filter(user_id = request.user.pk)
-    actividades_no_fijas = actividades_no_fijas.filter(event_type = "actividad_no_fija")
+        "Si existe y se desea crear otro horario(Se eliminan los registros anteriores de posición y luego se ejecuta el algoritmo de creación de horario)"
+        if horario_creado.create_new_schedule == True:
 
-    # Organizar arreglo final(incluye horario sueño y actividades no fijas):
-    no_fijas_adapt = generate_schedule(fixed_schedule, actividades_no_fijas)
-    
-    #Almacenar posiciones de cada evento
-    for par_evento_pos in no_fijas_adapt:
-    
-        evento = par_evento_pos[0]
-        day = par_evento_pos[1][0]
-        hour = par_evento_pos[1][1]
+            #Extraer actividades:
+            actividades = Event.objects.filter(user_id = usuario)
+            actividades_fijas = actividades.filter(event_type = "actividad_fija")
+            actividades_no_fijas = actividades.filter(event_type = "actividad_no_fija")
+            suenio = actividades.filter(event_type = "suenio")
+
+            #Eliminar posiciones actividades no fijas y sueño:
+            eliminar_posiciones_actividades(actividades_no_fijas)
+            eliminar_posiciones_actividades(suenio)
+
+
+            #Ingresar actividades fijas en arreglo y almacenarlo en la variable schedule:
+            fixed_schedule = registrar_posiciones(actividades_fijas)
+
+            # Organizar arreglo final(incluye horario sueño y actividades no fijas):
+            no_fijas_adapt = generate_schedule(fixed_schedule, actividades_no_fijas)
+
+            #Almacenar posiciones de cada evento
+            for par_evento_pos in no_fijas_adapt:
+            
+                evento = par_evento_pos[0]
+                day = par_evento_pos[1][0]
+                hour = par_evento_pos[1][1]
+                
+                posicion_actividad_no_fija = Position(event_id = evento,user_id = usuario,day=day,hour = hour,activity_name=evento.name)
+                posicion_actividad_no_fija.save()
+            
+            #Solicitar todas las actividades con posición y meterlas en arreglo:
+            actividades = Event.objects.filter(user_id = usuario)
+            horario_final = registrar_posiciones(actividades)
+            horario_final = list(zip(*horario_final))
+
+            #Dejar registro de que se creó un nuevo horario poniendo en falso el atributo "create_new_schedule":
+            horario_creado.create_new_schedule = False
+            horario_creado.save()
+            
+            return render(request,"horario_final.html", {"horario":horario_final})
         
-        posicion_actividad_no_fija = Position(event_id = evento,user_id = usuario,day=day,hour = hour,activity_name=evento.name)
-        posicion_actividad_no_fija.save()
+
+        "Si el horario ya existe y el usuario no desea crearlo nuevamente"
+        if horario_creado.create_new_schedule == False:
+            actividades = Event.objects.filter(user_id = usuario)
+            horario_final = registrar_posiciones(actividades)
+            horario_final = list(zip(*horario_final))
+            return render(request,"horario_final.html",{"horario":horario_final})
+
+
+
+
     
-    actividades = Event.objects.filter(user_id = usuario)
-    horario_final = registrar_posiciones(actividades)
-    horario_final = list(zip(*horario_final))
+        "Si el horario no existe:"
+    except Schedule.DoesNotExist:
+        # Sacar actividades fijas
+        actividades_fijas = Event.objects.filter(user_id = request.user.pk)
+        actividades_fijas = actividades_fijas.filter(event_type = "actividad_fija")
+
+        #Ingresar actividades fijas en arreglo y almacenarlo en la variable schedule:
+        fixed_schedule = registrar_posiciones(actividades_fijas)
+
+        # Extraer actividades no fijas
+        actividades_no_fijas = Event.objects.filter(user_id = request.user.pk)
+        actividades_no_fijas = actividades_no_fijas.filter(event_type = "actividad_no_fija")
+
+        # Organizar arreglo final(incluye horario sueño y actividades no fijas):
+        no_fijas_adapt = generate_schedule(fixed_schedule, actividades_no_fijas)
+        
+        #Almacenar posiciones de cada evento
+        for par_evento_pos in no_fijas_adapt:
+        
+            evento = par_evento_pos[0]
+            day = par_evento_pos[1][0]
+            hour = par_evento_pos[1][1]
+            
+            posicion_actividad_no_fija = Position(event_id = evento,user_id = usuario,day=day,hour = hour,activity_name=evento.name)
+            posicion_actividad_no_fija.save()
+        
+        actividades = Event.objects.filter(user_id = usuario)
+        horario_final = registrar_posiciones(actividades)
+        horario_final = list(zip(*horario_final))
+
+        #Dejar registro de que se creó un nuevo horario y renderizar horario
+        nuevo_horario = Schedule(user_id = usuario, create_new_schedule = False)
+        nuevo_horario.save()
+        
+        return render(request,"horario_final.html", {"horario":horario_final})
     
-    return render(request,"horario_final.html", {"horario":horario_final})
+
+    
+    
+def restablecer_horario(request):
+    usuario = User.objects.get(pk=request.user.pk)
+    horario = Schedule.objects.get(user_id = usuario)
+
+    horario.create_new_schedule = True
+    horario.save()
+    return redirect(reverse("horario_final"))

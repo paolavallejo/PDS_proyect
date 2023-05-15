@@ -13,5 +13,7 @@ urlpatterns = [
         path('actividades_no_fijas',views.actividades_no_fijas, name = 'actividades_no_fijas'),
         path('actividades_no_fijas/<int:ruta_actividad_no_fija>/eliminar_actividades_no_fijas',views.eliminar_actividades_no_fijas, name = 'eliminar_actividades_no_fijas'),
         path('horario_final',views.horario_final, name = 'horario_final'),
+        path('horario_final',views.horario_final, name = 'horario_final'),
+        path('restablecer_horario',views.restablecer_horario, name = 'restablecer_horario'),
 
 ]

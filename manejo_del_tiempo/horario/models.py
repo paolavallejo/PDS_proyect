@@ -23,6 +23,13 @@ class Position(models.Model):
 
 
 
+class Schedule(models.Model):
+    user_id = models.ForeignKey(User, on_delete = models.CASCADE)
+    create_new_schedule = models.BooleanField(default=False)
+
+
+
+
 
 
 
