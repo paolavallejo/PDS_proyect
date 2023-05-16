@@ -313,12 +313,26 @@ def horario_final(request):
             
             posicion_actividad_no_fija = Position(event_id = evento,user_id = usuario,day=day,hour = hour,activity_name=evento.name)
             posicion_actividad_no_fija.save()
-
+        
         actividades = Event.objects.filter(user_id = usuario)
         horario_no_suenio = registrar_posiciones(actividades)
         
-         # Insertar Sueño a Horario   
-        horario_final = insertar_suenio(horario_no_suenio, suenio)
+        # Insertar Sueño a Horario   
+        suenios_posiciones = insertar_suenio(horario_no_suenio, suenio)
+       
+        # Almacenar posiciones de cada sueño
+        for par_evento_pos in suenios_posiciones:
+        
+            evento = par_evento_pos[0]
+            day = par_evento_pos[1][0]
+            hour = par_evento_pos[1][1]
+            
+            posicion_suenio = Position(event_id = evento,user_id = usuario,day=day,hour = hour,activity_name=evento.name)
+            posicion_actividad_no_fija.save()
+            
+        # Crear horario final desde base de datos
+        actividades = Event.objects.filter(user_id = usuario)
+        horario_no_suenio = registrar_posiciones(actividades)
         horario_final = list(zip(*horario_final))
 
         #Dejar registro de que se creó un nuevo horario y renderizar horario
