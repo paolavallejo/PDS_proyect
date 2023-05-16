@@ -65,7 +65,7 @@ def eliminar_posiciones_actividades(actividades):
 
 
 # Insertar Sueño
-def insertar_sueño(schedule, horario_suenio):
+def insertar_suenio(schedule, horario_suenio):
 
     constraints = horario_suenio.constraints
     duracion_max = round(constraints["time_goal"]/7, 0)
