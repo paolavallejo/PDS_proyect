@@ -69,6 +69,7 @@ def insertar_suenio(schedule, horario_suenio):
 
     constraints = horario_suenio.constraints
     duracion_max = round(constraints["time_goal"]/7, 0)
+    suenio_locations = []
 
     for day in range(len(schedule)):
         repite = 0
@@ -77,14 +78,16 @@ def insertar_suenio(schedule, horario_suenio):
                 if schedule[day][hour] == None and hour < constraints["max_levantarse"] and constraints["time_goal_counter"] != 0:
 
                     schedule[day][hour] = horario_suenio
+                    suenio_locations.append((horario_suenio, (day, hour)))
                     constraints["time_goal_counter"] = constraints["time_goal_counter"] - 1
                     repite +=1
 
                 if schedule[day][23-hour] == None and (23-hour) >= constraints["max_acostarse"] and constraints["time_goal_counter"] != 0:
 
                     schedule[day][23-hour] = horario_suenio
+                    suenio_locations.append((horario_suenio, (day, 23-hour)))
                     constraints["time_goal_counter"] = constraints["time_goal_counter"] - 1
                     repite +=1
 
-    return schedule
+    return suenio_locations
 
