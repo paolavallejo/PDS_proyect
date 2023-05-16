@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from .models import Event, Position,Schedule
 from .crear_matriz_horario import  crear_matriz_horario
-from .helpers import registrar_posiciones, generate_schedule, eliminar_posiciones_actividades
+from .helpers import registrar_posiciones, generate_schedule, eliminar_posiciones_actividades, insertar_suenio
 
 
 #Ruta principal:
@@ -296,11 +296,15 @@ def horario_final(request):
         # Extraer actividades no fijas
         actividades_no_fijas = Event.objects.filter(user_id = request.user.pk)
         actividades_no_fijas = actividades_no_fijas.filter(event_type = "actividad_no_fija")
-
-        # Organizar arreglo final(incluye horario sueño y actividades no fijas):
+        
+        # Extraer sueño
+        suenio = Event.objects.filter(user_id = request.user.pk)
+        suenio = suenio.filter(event_type = "suenio")
+             
+        # Insertar no fijas a horario:
         no_fijas_adapt = generate_schedule(fixed_schedule, actividades_no_fijas)
         
-        #Almacenar posiciones de cada evento
+        #Almacenar posiciones de cada evento no fijo
         for par_evento_pos in no_fijas_adapt:
         
             evento = par_evento_pos[0]
@@ -309,9 +313,12 @@ def horario_final(request):
             
             posicion_actividad_no_fija = Position(event_id = evento,user_id = usuario,day=day,hour = hour,activity_name=evento.name)
             posicion_actividad_no_fija.save()
-        
+
         actividades = Event.objects.filter(user_id = usuario)
-        horario_final = registrar_posiciones(actividades)
+        horario_no_suenio = registrar_posiciones(actividades)
+        
+         # Insertar Sueño a Horario   
+        horario_final = insertar_suenio(horario_no_suenio, suenio)
         horario_final = list(zip(*horario_final))
 
         #Dejar registro de que se creó un nuevo horario y renderizar horario
