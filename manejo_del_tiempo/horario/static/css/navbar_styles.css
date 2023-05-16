@@ -80,35 +80,35 @@
 }
 
 /* Estilos para menú desplegable del login, logout y register: */
-.dropdown {
+#dropdown {
     grid-row:2/3;
     grid-column:8/9;
     display: inline-block;
     position: relative;
   }
-  .dropdown-content {
+  #dropdown-content {
     display: none;
     position: absolute;
     width: 80%;
     overflow: auto;
     box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
   }
-  .dropdown:hover .dropdown-content {
+  #dropdown:hover .dropdown-content {
     display: block;
     background-color: var(--color4);
   }
-  .dropdown-content a {
+  #dropdown-content a {
     display: block;
     color: #000000;
     padding: 5px;
     text-decoration: none;
   }
-  .dropdown-content a:hover {
+  #dropdown-content a:hover {
     color: #FFFFFF;
     background-color: #00A4BD;
   }
 
-  .user_image{
+  #user_image{
     width:30px;
     height:30px;
   }
