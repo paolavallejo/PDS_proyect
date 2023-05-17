@@ -55,15 +55,22 @@
     </div>
     {% comment %} Se despliegan actividades creadas  {% endcomment %}
 
-    <div class="contenedor_actividades">
+    <div class="contenedor_actividades container">
         {% if actividades_fijas %}
-            <h1 class="titulo_tus_actividades text-center">Tus actividades fijas:</h1>
+            <h1 class="titulo_tus_actividades text-center py-5">Tus actividades fijas:</h1>
             {% for actividad in actividades_fijas %}
-                 <div class="panel panel-default">
-                     <div class="panel-body">
-                          <h3>{{actividad.name}}</h3>
-                           <a class="btn btn-danger " href="{% url 'eliminar_actividades_fijas' ruta_actividad_fija=actividad.pk %}"><i class="bi bi-trash"></i></a>
-                    </div>
+                 <div class="row">
+    
+                     <div class="panel panel-default bg-light border rounded border-gray py-4 my-3">
+                         <div class="panel-body">
+                             <div class="col">
+                                <h3>{{actividad.name}}</h3>
+                             </div>
+                             <div class="col">
+                                <a class="btn btn-danger text-right" href="{% url 'eliminar_actividades_fijas' ruta_actividad_fija=actividad.pk %}">X</a>
+                             </div>
+                        </div>
+                     </div>
                 </div>
             {% endfor %}
         {% endif %}
