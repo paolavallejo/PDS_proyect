@@ -2,9 +2,15 @@
 {% load static %}
 
 {% block content %}
+
+   
+    <div class="container text-dark fw-bold text-center mt-5">
+        <h1 class="fw-bold">Horario</h1>
+    </div>
+    
     <div class="table-responsive">
         <table class="table table-striped table-bordered align-middle">
-            <thead class="thead-light">
+            <thead class="thead-light fw-bold">
                 <th scope="col">Hora</th>
                 <th scope="col">Lunes</td>
                 <td scope="col">Martes</td>
@@ -19,7 +25,7 @@
             {% for hour in horario %} 
                 <tr>
                     {% with hour_counter=forloop.counter0 %}
-                        <th scope="row">{{ hour_counter }}:00</th>
+                        <th  class="fw-bold" scope="row">{{ hour_counter }}:00</th>
                     {% endwith %}
 
                 {% for event in hour %}
@@ -35,7 +41,9 @@
         
     </table>
 </div>
-<a href="{% url 'restablecer_horario' %}">Restablecer horario</a>
+<div class="container text-center">
+    <a class="btn btn-warning text-dark fw-bold" href="{% url 'restablecer_horario' %}">Restablecer horario</a>
+</div>
 
 {% endblock content %}
 

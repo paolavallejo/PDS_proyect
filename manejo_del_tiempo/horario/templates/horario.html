@@ -1,9 +1,17 @@
 {% extends 'main/main.html' %}
 {% load static %}
 
-{% block link %}<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">{% endblock link %}
+{% block link %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+{% endblock link %}
 {% block content %}
-    <div>
-        <p>asdassad</p>
+    <div class="bg-white">
+        <div class="container bg-light py-5 mt-5 text-center">
+            <h2 class="fw-bold text-dark"> Bienvenido a Timemaster</h2>
+            <hr>
+            <h4 class="text-muted">Comienza a Conquistar el tiempo con Timemaster</h4>
+            <p class="text-primary">Da click en Actividades para comenzar a crear tu horario</p>
+            <p class="text-primary ">Da click en Horario para visualizar tu horario</p>
+        </div>
     </div>
 {% endblock content %}
