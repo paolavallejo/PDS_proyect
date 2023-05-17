@@ -4,67 +4,72 @@
 
 {% block content %}
 <div class="container">
-    <h1>Actividades no fijas</h1>
+    <div>
+        <h1 class="py-2 text-center mb-0">Actividades no fijas</h1>
+        <p class="text-center small mb-2">Crea tus actividades no fijas</p>
+    </div>
     {% comment %} links petición horarios  {% endcomment %}
-    <div class="contenedor_links_horario">
-        
-        <div class="contenedor_link_suenio">
-            <a href="{% url 'suenio' %}">1</a>
-        </div>
-
-        <div class="contenedor_link_actividades_fijas">
-            <a href="{% url 'actividades_fijas' %}">2</a>
-        </div>
-        
-        <div class="contenedor_link_actividades_no_fijas">
-            <a href="{% url 'actividades_no_fijas' %}">3</a>
-        </div>
+    <style>
+        .bg-custom {
+          background-color: gray; 
+        }
+    </style>
+        <nav aria-label="Page navigation example ">
+            <ul class="pagination justify-content-center ">
+              <li class="page-item m-2"><a class="page-link" href="{% url 'suenio' %}">Sueño</a></li>
+              <li class="page-item m-2"><a class="page-link" href="{% url 'actividades_fijas' %}">Actividades Fijas</a></li>
+              <li class="page-item m-2"><a class="page-link" href="{% url 'actividades_no_fijas' %}">Actividades no fijas</a></li>
+            </ul>
+        </nav>
 
     </div>
-
+ 
     {% comment %} Formulario actividades fijas  {% endcomment %}
-    <form action="" method="POST">
+    <div class="container-sm">
+        <div class="row justify-content-center">
+            <form class="col-lg-6 bg-light border rounded border-gray" action="" method="POST">
 
-        {% csrf_token %}
-        
-        <label for="name" class="form-label">Nombre de la actividad</label>
-        <input type="text" name="name" id="name" class="form-control" required>
-        
+                {% csrf_token %}
+                
+                <label for="name" class="form-label">Nombre de la actividad</label>
+                <input type="text" name="name" id="name" class="form-control w-auto mb-4" required>
+                
 
-        <label for="priority">Prioridad (1 a 10)</label>
-        <select name="priority" id="priority" class="form-select">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-        </select>
+                <label for="priority">Prioridad (1 a 10)</label>
+                <select name="priority" id="priority" class="form-select w-auto mb-3">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
 
-        <label for="horas_semanales" class="form-label">Horas semanales para realizar actividad</label>
-        <input type="number" name="horas_semanales" id="horas_semanales" min="1" max="24" step="1" class="form-control" required>
+                <label for="horas_semanales" class="form-label">Horas semanales para realizar actividad</label>
+                <input type="number" name="horas_semanales" id="horas_semanales" min="1" max="24" step="1" class="form-control w-auto mb-3" required>
 
-        <label for="hora_mas_temprana" class="form-label">Hora más temprana para realizar actividad</label>
-        <input type="number" name="hora_mas_temprana" id="hora_mas_temprana" min="1" max="24" step="1" class="form-control" required>
+                <label for="hora_mas_temprana" class="form-label">Hora más temprana para realizar actividad</label>
+                <input type="number" name="hora_mas_temprana" id="hora_mas_temprana" min="1" max="24" step="1" class="form-control w-auto ¿mb-3" required>
 
-        <label for="hora_mas_tarde" class="form-label">Hora más tarde para realizar actividad</label>
-        <input type="number" name="hora_mas_tarde" id="hora_mas_tarde" min="1" max="24" step="1" class="form-control" required>
+                <label for="hora_mas_tarde" class="form-label">Hora más tarde para realizar actividad</label>
+                <input type="number" name="hora_mas_tarde" id="hora_mas_tarde" min="1" max="24" step="1" class="form-control w-auto mb-3" required>
 
-        <label for="tiempo_maximo" class="form-label">Tiempo máximo en el que realizarías la actividad</label>
-        <input type="number" name="tiempo_maximo" id="tiempo_maximo" min="1" max="24" step="1" class="form-control" required>
-
-
-        <input type="submit" value="Enviar" class="btn btn-primary">
+                <label for="tiempo_maximo" class="form-label">Tiempo máximo en el que realizarías la actividad</label>
+                <input type="number" name="tiempo_maximo" id="tiempo_maximo" min="1" max="24" step="1" class="form-control w-auto mb-3" required>
 
 
-    </form>
+                <input type="submit" value="Enviar" class="btn btn-primary mx-auto d-block text-center btn-rounded btn-lg my-0 mb-3">
+            </form>
+            <a class="text-decoration-none text-center" href="{% url 'horario_final' %}">Ver horario final</a>
+        </div>
+    </div>
 
-    <a href="{% url 'horario_final' %}">--Resultado--</a>
-
+    
+    
 
     {% comment %} Se despliegan actividades creadas  {% endcomment %}
 
@@ -80,5 +85,8 @@
             {% endfor %}
         {% endif %}
     </div>
+
+
 <div>
 {% endblock  %}
+

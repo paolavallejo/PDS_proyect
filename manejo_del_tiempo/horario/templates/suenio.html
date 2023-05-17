@@ -5,44 +5,44 @@
 
 {% block content %}
 <div class="container">
-    <h1>Horario sueño</h1>
+    
+    <div>
+        <h1 class="py-2 text-center mb-0">Horario sueño</h1>
+        <p class="text-center small mb-2">Configura tu horario de sueño</p>
+    </div>
     {% comment %} links petición horarios  {% endcomment %}
-    <div class="contenedor_links_horario">
-        
-        <div class="contenedor_link_suenio">
-            <a href="{% url 'suenio' %}">1</a>
-        </div>
-
-        <div class="contenedor_link_actividades_fijas">
-            <a href="{% url 'actividades_fijas' %}">2</a>
-        </div>
-        
-        <div class="contenedor_link_actividades_no_fijas">
-            <a href="{% url 'actividades_no_fijas' %}">3</a>
-        </div>
+    <nav aria-label="Page navigation example ">
+        <ul class="pagination justify-content-center ">
+          <li class="page-item m-2"><a class="page-link" href="{% url 'suenio' %}">Sueño</a></li>
+          <li class="page-item m-2"><a class="page-link" href="{% url 'actividades_fijas' %}">Actividades Fijas</a></li>
+          <li class="page-item m-2"><a class="page-link" href="{% url 'actividades_no_fijas' %}">Actividades no fijas</a></li>
+        </ul>
+    </nav>
 
     </div>
 
-    <form action="" method="POST">
-        {% csrf_token %}
-        <label for="horas_suenio">¿Cuántas horas semanalmente deseas dormir?</label>
-        <input type="number" name="horas_suenio" id="horas_suenio" min="1" max="75" step="1" required>
+    <div class="container-sm">
+        <div class="row justify-content-center">
+            <form class="col-lg-6 bg-light border rounded border-gray" action="" method="POST">
+                {% csrf_token %}
+                <label class="form-label" for="horas_suenio">¿Cuántas horas semanalmente deseas dormir?</label>
+                <input class="form-control w-auto mb-4" type="number" name="horas_suenio" id="horas_suenio" min="1" max="75" step="1" required>
 
-        <label for="hora_maxima_levantar">¿A qué hora máximo te deseas levantar?</label>
-        <input type="number" name="hora_maxima_levantar" id="hora_maxima_levantar" min="1" max="24" step="1" required>
+                <label class="form-label" for="hora_maxima_levantar">¿A qué hora máximo te deseas levantar?</label>
+                <input class="form-control w-auto mb-4" type="number" name="hora_maxima_levantar" id="hora_maxima_levantar" min="1" max="24" step="1" required>
 
-        <label for="hora_maxima_acostar">¿A qué hora máximo te deseas acostar?</label>
-        <input type="number" name="hora_maxima_acostar" id="hora_maxima_acostar" min="1" max="24" step="1" required>
+                <label class="form-label" for="hora_maxima_acostar">¿A qué hora máximo te deseas acostar?</label>
+                <input class="form-control w-auto mb-4" type="number" name="hora_maxima_acostar" id="hora_maxima_acostar" min="1" max="24" step="1" required>
 
-        <label for="longitud_maxima_suenio">Longitud máxima de sueño</label>
-        <input type="number" name="longitud_maxima_suenio" id="longitud_maxima_suenio" min="1" max="12" step="1" required>
-
-
-        <input type="submit" value="Enviar">
-
-    </form>
+                <label class="form-label" for="longitud_maxima_suenio">Longitud máxima de sueño</label>
+                <input  class="form-control w-auto mb-4"type="number" name="longitud_maxima_suenio" id="longitud_maxima_suenio" min="1" max="12" step="1" required>
 
 
+                <input type="submit" value="Enviar" class="btn btn-primary mx-auto d-block text-center btn-rounded btn-lg my-0 mb-3">
+
+            </form>
+        </div>
+    </div>
     {% comment %} Se despliegan actividades creadas  {% endcomment %}
 
     <div class="contenedor_actividades">

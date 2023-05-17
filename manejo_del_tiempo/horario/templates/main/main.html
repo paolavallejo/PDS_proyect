@@ -20,7 +20,8 @@
         
         <ul class="navbar-nav me-auto">
             <li class="nav-item"><a class="nav-link" href="{% url 'horario' %}">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'suenio' %}">Horario</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'suenio' %}">Actividades</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'horario_final' %}">Horario</a></li>
         </ul>
 
         <ul class="navbar-nav">
@@ -40,9 +41,7 @@
         
     </nav>
     
-    <nav id="second_navbar_container">
-        <img class="logo_timemaster" src="{% static 'imagenes/timemaster.png' %}" alt="imagen time master">
-    </nav>
+    
     {% block content %}
     
     {% endblock %}

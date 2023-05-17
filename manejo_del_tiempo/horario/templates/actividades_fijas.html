@@ -4,54 +4,55 @@
 
 {% block content %}
 <div class="container">
-    <h1>Actividades fijas</h1>
-    {% comment %} links petición horarios  {% endcomment %}
-    <div class="contenedor_links_horario">
-        
-        <div class="contenedor_link_suenio">
-            <a href="{% url 'suenio' %}">1</a>
-        </div>
 
-        <div class="contenedor_link_actividades_fijas">
-            <a href="{% url 'actividades_fijas' %}">2</a>
-        </div>
-        
-        <div class="contenedor_link_actividades_no_fijas">
-            <a href="{% url 'actividades_no_fijas' %}">3</a>
-        </div>
-
+    <div>
+        <h1 class="py-2 text-center mb-0">Actividades fijas</h1>
+        <p class="text-center small mb-2">Crea tus actividades fijas</p>
     </div>
+    {% comment %} links petición horarios  {% endcomment %}
+    <nav aria-label="Page navigation example ">
+        <ul class="pagination justify-content-center ">
+          <li class="page-item m-2"><a class="page-link" href="{% url 'suenio' %}">Sueño</a></li>
+          <li class="page-item m-2"><a class="page-link" href="{% url 'actividades_fijas' %}">Actividades Fijas</a></li>
+          <li class="page-item m-2"><a class="page-link" href="{% url 'actividades_no_fijas' %}">Actividades no fijas</a></li>
+        </ul>
+    </nav>
+
+</div>
 
     {% comment %} Formulario actividades fijas  {% endcomment %}
-    <form action="" method="POST">
+    <div class="container-sm">
+        <div class="row justify-content-center">
+            <form class="col-lg-6 bg-light border rounded border-gray" action="" method="POST">
 
-        {% csrf_token %}
-        <label for="name">Nombre</label>
-        <input type="text" name="name" id="name" required>
+                {% csrf_token %}
+                <label class="form-label" for="name">Nombre</label>
+                <input class="form-control w-auto mb-4" type="text" name="name" id="name" required>
 
-        <label for="dia_actividad">Día actividad</label>
-        <select name="dia_actividad" id="dia_actividad" required>
-            <option value="0">lunes</option>
-            <option value="1">martes</option>
-            <option value="2">miércoles</option>
-            <option value="3">jueves</option>
-            <option value="4">viernes</option>
-            <option value="5">sábado</option>
-            <option value="6">domingo</option>
-        </select>
-
-
-        <label for="hora_actividad">Hora actividad (entre 1,24)</label>
-        <input type="number" name="hora_actividad" id="hora_actividad" min="1" max="24" step="1" required>
-
-        <label for="duracion_actividad">Duración actividad</label>
-        <input type="number" name="duracion_actividad" id="duracion_actividad" min="1" max="10" step="1" required>
-
-        <input type="submit" value="Enviar">
+                <label class="form-label" for="dia_actividad">Día actividad</label>
+                <select name="dia_actividad" id="dia_actividad" class="form-select w-auto mb-3" required>
+                    <option value="0">lunes</option>
+                    <option value="1">martes</option>
+                    <option value="2">miércoles</option>
+                    <option value="3">jueves</option>
+                    <option value="4">viernes</option>
+                    <option value="5">sábado</option>
+                    <option value="6">domingo</option>
+                </select>
 
 
-    </form>
+                <label class="form-label" for="hora_actividad">Hora actividad (entre 1,24)</label>
+                <input class="form-control w-auto mb-4" type="number" name="hora_actividad" id="hora_actividad" min="1" max="24" step="1" required>
 
+                <label class="form-label" for="duracion_actividad">Duración actividad</label>
+                <input class="form-control w-auto mb-4" type="number" name="duracion_actividad" id="duracion_actividad" min="1" max="10" step="1" required>
+
+                <input type="submit" value="Enviar" class="btn btn-primary mx-auto d-block text-center btn-rounded btn-lg my-0 mb-3">
+
+
+            </form>
+        </div>
+    </div>
     {% comment %} Se despliegan actividades creadas  {% endcomment %}
 
     <div class="contenedor_actividades">
