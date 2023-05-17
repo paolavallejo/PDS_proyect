@@ -57,10 +57,13 @@
 
     <div class="contenedor_actividades">
         {% if actividades_fijas %}
-            <h1 class="titulo_tus_actividades">Tus actividades fijas:</h1>
+            <h1 class="titulo_tus_actividades text-center">Tus actividades fijas:</h1>
             {% for actividad in actividades_fijas %}
-                <div class="caja_actividad container bg-light border rounded border-gray">
-                    <p>{{actividad.name}}</p><p>id: {{actividad.pk}}</p><a class="btn btn-danger" href="{% url 'eliminar_actividades_fijas' ruta_actividad_fija=actividad.pk %}">❌</a>
+                 <div class="panel panel-default">
+                     <div class="panel-body">
+                          <h3>{{actividad.name}}</h3>
+                           <a class="btn btn-danger " href="{% url 'eliminar_actividades_fijas' ruta_actividad_fija=actividad.pk %}"><i class="bi bi-trash"></i></a>
+                    </div>
                 </div>
             {% endfor %}
         {% endif %}
