@@ -59,10 +59,8 @@
         {% if actividades_fijas %}
             <h1 class="titulo_tus_actividades">Tus actividades fijas:</h1>
             {% for actividad in actividades_fijas %}
-                <div class="caja_actividad">
-                    <p>{{actividad.name}}</p>
-                    <p>id: {{actividad.pk}}</p>
-                    <a href="{% url 'eliminar_actividades_fijas' ruta_actividad_fija=actividad.pk %}">❌</a>
+                <div class="caja_actividad container bg-light border rounded border-gray">
+                    <p>{{actividad.name}}</p><p>id: {{actividad.pk}}</p><a class="btn btn-danger" href="{% url 'eliminar_actividades_fijas' ruta_actividad_fija=actividad.pk %}">❌</a>
                 </div>
             {% endfor %}
         {% endif %}
