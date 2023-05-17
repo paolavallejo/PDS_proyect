@@ -55,25 +55,29 @@
     </div>
     {% comment %} Se despliegan actividades creadas  {% endcomment %}
 
-    <div class="contenedor_actividades container">
+    <div class="container">
         {% if actividades_fijas %}
-            <h1 class="titulo_tus_actividades text-center py-5">Tus actividades fijas:</h1>
+          <h1 class="text-center py-5">Tus actividades fijas:</h1>
+          <div class="row">
             {% for actividad in actividades_fijas %}
-                 <div class="row">
-    
-                     <div class="panel panel-default bg-light border rounded border-gray py-4 my-3">
-                         <div class="panel-body">
-                             <div class="col">
-                                <h3>{{actividad.name}}</h3>
-                             </div>
-                             <div class="col">
-                                <a class="btn btn-danger text-right" href="{% url 'eliminar_actividades_fijas' ruta_actividad_fija=actividad.pk %}">X</a>
-                             </div>
-                        </div>
-                     </div>
+              <div class="col-sm-3">
+                <div class="bg-light border rounded border-gray mb-4 m-3 p-2">
+                  <div class="panel-body">
+                    <div class="col">
+                      <p class="text-secondary">{{actividad.name}}</p>
+                    </div>
+                    <div class="col">
+                      <a class="btn btn-danger btn-sm text-right" href="{% url 'eliminar_actividades_fijas' ruta_actividad_fija=actividad.pk %}">Eliminar</a>
+                    </div>
+                  </div>
                 </div>
+              </div>
+              {% if forloop.counter|divisibleby:4 and not forloop.last %}
+                </div><div class="row">
+              {% endif %}
             {% endfor %}
+          </div>
         {% endif %}
-    </div>
+      </div>
 </div>
     {% endblock  %}
